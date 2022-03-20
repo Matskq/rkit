@@ -13,8 +13,9 @@ int main (int argc, char **argv){
   int c;
 
   opterr = 0;
+  optopt = 0;
 
-  while ((c = getopt (argc, argv, "gdx:")) != -1)
+  while ((c = getopt (argc, argv, "dgx:")) != -1)
     switch (c){
       case 'd':
         udv = 1;
@@ -23,6 +24,11 @@ int main (int argc, char **argv){
       case 'g':
         udv = 2;
         gen_string(10);
+        break;
+      case 'x':
+        udv = 3;
+        int gen_num = atoi(optarg);
+        gen_string(gen_num);
         break;
       case '?':
       if (isprint (optopt)){
@@ -38,7 +44,7 @@ int main (int argc, char **argv){
     }
     if(udv == 0){
       printf("Nothing to generate\n");
-      return 1;
+      return 0;
     }
   return 0;
 }
@@ -55,6 +61,8 @@ char *gen_r(int y) {
       x[i] = set_a[rset(strlen(set_a))];
     } else if (udv == 2){
       x[i] = set_b[rset(strlen(set_b))];
+    } else {
+      x[i] = set_a[rset(strlen(set_a))];
     }
   }
   x[y] = '\0';
