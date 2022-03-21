@@ -23,7 +23,7 @@ int main (int argc, char **argv){
         break;
       case 'g':
         udv = 2;
-        gen_string(10);
+        gen_msg();
         break;
       case 'x':
         udv = 3;
@@ -32,15 +32,15 @@ int main (int argc, char **argv){
         break;
       case '?':
       if (isprint (optopt)){
-          fprintf (stderr, "( -%c ) Unexpected\n", optopt);
+          fprintf (stderr, ":-%c\n", optopt);
       } else{
-          fprintf(stderr, "Unexpected option `\\x%x'.\n", optopt);
+          fprintf(stderr, ": `\\x%x'.\n", optopt);
       }
       return 1;
       default:abort();
     }
     for (p = optind; p < argc; p++){
-      printf ("Non-option argument %s\n", argv[p]);
+      printf (": %s\n", argv[p]);
     }
     if(udv == 0){
       printf("Nothing to generate\n");
@@ -50,7 +50,7 @@ int main (int argc, char **argv){
 }
 
 const char set_a[] = "abcdefghijklmnopqrstuvwxyz0123456789";
-const char set_b[] = "ABCEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const char set_b[] = "ABCEFGHIJKLMNOPQRSTUVWXYZ";
 int rset(int n) { return rand() % n; }
 
 char *gen_r(int y) {
@@ -79,6 +79,32 @@ int gen_string(int value){
 
   printf("%s\n", x);
   free(x);
+}
+
+char current_date[100];
+
+int gen_msg(void){
+  time_t now = time(NULL);
+  struct tm *t = localtime(&now);
+  strftime(current_date, sizeof(current_date)-1, "%d%m%y", t);
+
+  char *final_string;
+
+  srand(time(NULL));
+  char *x;
+  x = gen_r(4);
+
+  if((final_string = malloc(strlen(x)+strlen(current_date)+1)) != NULL){
+      final_string[0] = '\0';
+      strcat(final_string, x);
+      strcat(final_string, current_date);
+  } else {
+    return 1;
+  }
+  handle_clip(final_string);
+  printf("%s\n", final_string);
+  free(x);
+  free(final_string);
 }
 
 int handle_clip(const char *x) {
