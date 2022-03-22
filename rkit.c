@@ -86,7 +86,7 @@ char current_date[100];
 int gen_msg(void){
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
-  strftime(current_date, sizeof(current_date)-1, "%d%m%y", t);
+  strftime(current_date, sizeof(current_date)-1, "%y%m%d", t);
 
   char *final_string;
 
