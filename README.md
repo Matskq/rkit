@@ -8,6 +8,6 @@ Generate a classname
 
     rkit -d
     
-Define string lenght with -x
+Define string length with -x
 
     rkit -x 50
