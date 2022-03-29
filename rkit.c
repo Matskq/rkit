@@ -6,6 +6,10 @@
 #include <time.h>
 
 int udv = 0;
+gen_string(int value);
+gen_msg(void);
+handle_clip(const char *x);
+
 
 int main (int argc, char **argv){
   
