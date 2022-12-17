@@ -32,6 +32,10 @@ int main (int argc, char **argv){
       case 'x':
         udv = 3;
         int gen_num = atoi(optarg);
+        if(gen_num > 999999){
+          printf("value cannot be over '999999'\n");
+          return 1;
+        }
         gen_string(gen_num);
         break;
       case '?':
