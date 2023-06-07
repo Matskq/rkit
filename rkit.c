@@ -9,6 +9,7 @@ int udv = 0;
 gen_string(int value);
 gen_msg(void);
 handle_clip(const char *x);
+gen_iss();
 
 
 int main (int argc, char **argv){
@@ -19,7 +20,7 @@ int main (int argc, char **argv){
   opterr = 0;
   optopt = 0;
 
-  while ((c = getopt (argc, argv, "dgx:")) != -1)
+  while ((c = getopt (argc, argv, "dgix:")) != -1)
     switch (c){
       case 'd':
         udv = 1;
@@ -37,6 +38,10 @@ int main (int argc, char **argv){
           return 1;
         }
         gen_string(gen_num);
+        break;
+      case 'i':
+        udv = 4;
+        gen_iss();
         break;
       case '?':
       if (isprint (optopt)){
@@ -59,6 +64,7 @@ int main (int argc, char **argv){
 
 const char set_a[] = "abcdefghijklmnopqrstuvwxyz0123456789";
 const char set_b[] = "ABCEFGHIJKLMNOPQRSTUVWXYZ";
+const char set_c[] = "0123456789";
 int rset(int n) { return rand() % n; }
 
 char *gen_r(int y) {
@@ -69,7 +75,9 @@ char *gen_r(int y) {
       x[i] = set_a[rset(strlen(set_a))];
     } else if (udv == 2){
       x[i] = set_b[rset(strlen(set_b))];
-    } else {
+    } else if (udv == 4){
+      x[i] = set_c[rset(strlen(set_c))];
+    }else {
       x[i] = set_a[rset(strlen(set_a))];
     }
   }
@@ -113,6 +121,24 @@ int gen_msg(void){
   printf("%s\n", final_string);
   free(x);
   free(final_string);
+}
+
+int gen_iss(void){
+    char *y = "AC-";
+    char *z = gen_r(5);
+    char *r;
+
+    if((r = malloc(strlen(y)+strlen(z)+1)) != NULL){
+        r[0] = '\0';
+        strcat(r, y);
+        strcat(r, z);
+    } else {
+        return 1;
+    }
+
+    handle_clip(r);
+    printf("%s\n", r);
+    free(r);
 }
 
 int handle_clip(const char *x) {
