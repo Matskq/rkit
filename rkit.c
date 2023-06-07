@@ -75,9 +75,7 @@ char *gen_r(int y) {
       x[i] = set_a[rset(strlen(set_a))];
     } else if (udv == 2){
       x[i] = set_b[rset(strlen(set_b))];
-    } else if (udv == 4){
-      x[i] = set_c[rset(strlen(set_c))];
-    }else {
+    } else {
       x[i] = set_a[rset(strlen(set_a))];
     }
   }
@@ -124,9 +122,15 @@ int gen_msg(void){
 }
 
 int gen_iss(void){
+
+    srand(time(NULL));
+
     char *y = "AC-";
-    char *z = gen_r(5);
     char *r;
+    int x = 100 + rand() % 9000 - 1000;
+
+    char z[5];
+    sprintf(z, "%d", x);
 
     if((r = malloc(strlen(y)+strlen(z)+1)) != NULL){
         r[0] = '\0';
